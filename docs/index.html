@@ -4,11 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EcoKnowledge | Environmental Intelligence</title>
+    <title>EcoKnowledge | Environmental Intelligence Platform</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;500;800&display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;500;700;800&display=swap"
         rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="./favicon.ico?v=2">
 
@@ -16,11 +16,24 @@
         :root {
             --glass: rgba(15, 18, 24, 0.9);
             --accent: #34d399;
+            --dark-bg: #05070a;
+            --light-text: #f8fafc;
+            --subtle-border: rgba(255, 255, 255, 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            background: var(--dark-bg);
         }
 
         body {
-            background: #05070a;
-            color: #f8fafc;
+            background: var(--dark-bg);
+            color: var(--light-text);
             font-family: 'Plus Jakarta Sans', sans-serif;
             overflow-x: hidden;
         }
@@ -28,11 +41,261 @@
         .glass-card {
             background: var(--glass);
             backdrop-filter: blur(40px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--subtle-border);
             border-radius: 1.5rem;
         }
 
-        /* Mobile Nav Toggle */
+        .gradient-text {
+            background: linear-gradient(135deg, var(--accent) 0%, #06b6d4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Navbar */
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--subtle-border);
+        }
+
+        .nav-link {
+            position: relative;
+            text-decoration: none;
+            color: #cbd5e1;
+            font-size: 0.875rem;
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--light-text);
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-gradient {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 30% 50%, rgba(52, 211, 153, 0.08) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 50%, rgba(6, 182, 212, 0.08) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .floating-card {
+            animation: float 6s ease-in-out infinite;
+            opacity: 0;
+            animation-fill-mode: forwards;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px) rotate(0deg);
+                opacity: 1;
+            }
+            50% {
+                transform: translateY(-20px) rotate(2deg);
+                opacity: 1;
+            }
+        }
+
+        @keyframes float-delayed-1 {
+            0%, 100% {
+                transform: translateY(0px) rotate(0deg);
+                opacity: 1;
+            }
+            50% {
+                transform: translateY(-25px) rotate(-2deg);
+                opacity: 1;
+            }
+        }
+
+        @keyframes float-delayed-2 {
+            0%, 100% {
+                transform: translateY(0px) rotate(0deg);
+                opacity: 1;
+            }
+            50% {
+                transform: translateY(-15px) rotate(1deg);
+                opacity: 1;
+            }
+        }
+
+        .float-1 {
+            animation: float 6s ease-in-out infinite 0s;
+        }
+
+        .float-2 {
+            animation: float-delayed-1 7s ease-in-out infinite 0.5s;
+        }
+
+        .float-3 {
+            animation: float-delayed-2 8s ease-in-out infinite 1s;
+        }
+
+        /* Carousel */
+        .carousel-container {
+            position: relative;
+            max-width: 900px;
+            margin: 0 auto;
+            height: 200px;
+            display: flex;
+            align-items: center;
+        }
+
+        .carousel-slide {
+            position: absolute;
+            width: 100%;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 0.8s ease;
+            pointer-events: none;
+        }
+
+        .carousel-slide.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .carousel-quote {
+            font-size: clamp(1.25rem, 5vw, 2rem);
+            font-weight: 700;
+            line-height: 1.5;
+            color: var(--light-text);
+            margin-bottom: 1rem;
+        }
+
+        .carousel-author {
+            font-size: 0.95rem;
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .carousel-controls {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 2rem;
+        }
+
+        .carousel-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .carousel-dot.active {
+            background: var(--accent);
+        }
+
+        /* Form Styling */
+        input {
+            background: rgba(255, 255, 255, 0.03) !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            border-radius: 12px !important;
+            color: white !important;
+            width: 100%;
+            padding: 0.75rem !important;
+            transition: all 0.3s ease !important;
+        }
+
+        input:focus {
+            border-color: var(--accent) !important;
+            outline: none !important;
+            background: rgba(52, 211, 153, 0.05) !important;
+            box-shadow: 0 0 20px rgba(52, 211, 153, 0.2) !important;
+        }
+
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.3) !important;
+        }
+
+        /* Button Styles */
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent) 0%, #06b6d4 100%);
+            color: #000;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 24px rgba(52, 211, 153, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 32px rgba(52, 211, 153, 0.4);
+        }
+
+        .btn-primary:active {
+            transform: scale(0.98);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            padding: 0.75rem 1.5rem;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(52, 211, 153, 0.1);
+        }
+
+        /* Section Spacing */
+        .section-spacing {
+            padding: 4rem 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .section-spacing {
+                padding: 2rem 1rem;
+            }
+
+            .carousel-quote {
+                font-size: 1.25rem;
+            }
+        }
+
+        /* Mobile Menu */
         #nav-menu.hidden-mobile {
             display: none;
         }
@@ -43,20 +306,79 @@
             }
         }
 
-        input {
-            background: rgba(255, 255, 255, 0.03) !important;
-            border: 1px solid rgba(255, 255, 255, 0.1) !important;
-            border-radius: 12px !important;
-            color: white !important;
-            width: 100%;
+        /* Scroll Fade */
+        .scroll-fade {
+            opacity: 0;
+            transform: translateY(20px);
         }
 
-        input:focus {
-            border-color: var(--accent) !important;
-            outline: none;
+        .scroll-fade.visible {
+            opacity: 1;
+            transform: translateY(0);
+            transition: all 0.8s ease;
         }
 
-        /* Smooth Scale for Mobile */
+        /* Feature Grid */
+        .feature-card {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(52, 211, 153, 0.1) 0%, transparent 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .feature-card:hover::before {
+            opacity: 1;
+        }
+
+        /* Icon Styles */
+        .icon-circle {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(52, 211, 153, 0.1);
+            border: 1px solid var(--subtle-border);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        /* Loading State */
+        .loader {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #000;
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Result Display */
+        .result-display {
+            background: linear-gradient(135deg, rgba(52, 211, 153, 0.1) 0%, rgba(6, 182, 212, 0.05) 100%);
+            border: 1px solid var(--subtle-border);
+            border-radius: 16px;
+            padding: 2rem;
+        }
+
+        /* Responsive */
         @media (max-width: 640px) {
             .glass-card {
                 border-radius: 1rem;
@@ -64,197 +386,525 @@
             }
 
             h1 {
+                font-size: 1.75rem !important;
+            }
+
+            h2 {
                 font-size: 1.5rem !important;
             }
         }
     </style>
 </head>
 
-<body class="p-4 md:p-6 lg:p-10">
+<body>
 
-    <div class="max-w-[1600px] mx-auto space-y-6">
-
-        <nav class="flex flex-wrap items-center justify-between p-5 glass-card sticky top-4 z-50 border-emerald-500/10">
+    <!-- Navigation -->
+    <nav class="glass-card sticky top-0 z-50 mx-4 mt-4 md:mx-6 lg:mx-10">
+        <div class="max-w-[1600px] mx-auto px-6 py-4 flex flex-wrap items-center justify-between">
             <div class="flex items-center gap-3">
-                <img src="logo.png" alt="Logo" class="w-8 h-8 md:w-10 md:h-10">
-                <span class="text-xl md:text-2xl font-black tracking-tighter">EcoKnowledge</span>
+                <div class="w-8 h-8 md:w-10 md:h-10 bg-gradient-to-br from-emerald-500 to-cyan-500 rounded-lg flex items-center justify-center text-white font-bold text-lg">E</div>
+                <span class="text-xl md:text-2xl font-black tracking-tighter gradient-text">EcoKnowledge</span>
             </div>
 
             <button id="menu-toggle" class="lg:hidden text-slate-400 p-2">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7">
-                    </path>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
                 </svg>
             </button>
 
-            <div id="nav-menu"
-                class="hidden-mobile w-full lg:w-auto lg:flex gap-4 lg:gap-8 text-[10px] font-bold uppercase tracking-widest mt-4 lg:mt-0">
-                <a href="#"
-                    class="block py-2 text-emerald-400 border-b-2 border-emerald-400 lg:border-none">Simulation</a>
-                <a href="./index_final.html" class="block py-2 text-slate-400 hover:text-white transition-colors">View AP
-                    EcoGrid Analysis</a>
-            </div>
-        </nav>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
-            <div class="xl:col-span-1 glass-card p-6 order-2 xl:order-1">
-                <h3
-                    class="text-[10px] font-bold text-emerald-400 uppercase tracking-[0.2em] mb-4 text-center xl:text-left">
-                    Global Weights</h3>
-                <img src="assets/summary.jpg"
-                    class="w-full rounded-xl opacity-80 mb-4 shadow-lg mx-auto max-w-[300px] xl:max-w-full">
-                <p class="text-[11px] text-slate-500 italic text-center xl:text-left">Pre-trained feature importance
-                    weights.</p>
-            </div>
-
-            <div
-                class="md:col-span-2 xl:col-span-2 glass-card p-6 md:p-10 order-1 xl:order-2 border-emerald-500/20 shadow-2xl">
-                <form id="ecoForm" class="flex flex-col gap-6">
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-8">
-                        <div class="space-y-4">
-                            <div>
-                                <label class="text-[10px] text-slate-500 font-bold uppercase ml-1">Greenness (%)</label>
-                                <input type="number" step="any" name="Greenness" value="45.5" class="p-3 md:p-4">
-                            </div>
-                            <div>
-                                <label class="text-[10px] text-slate-500 font-bold uppercase ml-1">Urban Density</label>
-                                <input type="number" step="any" name="Urban_Density" value="10.2" class="p-3 md:p-4">
-                            </div>
-                        </div>
-                        <div class="space-y-4">
-                            <div class="grid grid-cols-2 gap-2">
-                                <div>
-                                    <label class="text-[10px] text-slate-500 uppercase">UHI</label>
-                                    <input type="number" step="any" name="UHI" value="-0.5" class="p-3 text-xs">
-                                </div>
-                                <div>
-                                    <label class="text-[10px] text-slate-500 uppercase">LSTVI</label>
-                                    <input type="number" step="any" name="LSTVI" value="0.05" class="p-3 text-xs">
-                                </div>
-                            </div>
-                            <div>
-                                <label class="text-[10px] text-slate-500 font-bold uppercase ml-1">PM 2.5 Levels</label>
-                                <input type="number" step="any" name="PM25" value="20.1"
-                                    class="p-3 md:p-4 border-red-500/20">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="flex flex-col gap-6 mt-4">
-                        <div id="resultDisplay"
-                            class="hidden text-center p-6 bg-emerald-500/5 rounded-2xl border border-emerald-500/10">
-                            <h2 id="resCategory" class="text-2xl font-black italic text-white">Healthy</h2>
-                            <div class="text-4xl md:text-5xl font-black mt-1 text-emerald-400" id="resScore">0.00</div>
-                        </div>
-
-                        <button type="submit" id="submitBtn"
-                            class="w-full bg-emerald-500 text-black font-black py-4 md:py-5 rounded-xl hover:brightness-110 active:scale-95 transition-all flex justify-center items-center gap-3">
-                            <span id="btnText">Analyze Environment</span>
-                            <div id="loader"
-                                class="hidden w-5 h-5 border-2 border-black border-t-transparent rounded-full animate-spin">
-                            </div>
-                        </button>
-                    </div>
-                </form>
-            </div>
-
-            <div class="xl:col-span-1 glass-card p-6 order-3">
-                <h3
-                    class="text-[10px] font-bold text-emerald-400 uppercase tracking-[0.2em] mb-4 text-center xl:text-left">
-                    Local Decision Path</h3>
-                <img src="assets/waterfall%20plot.jpg"
-                    class="w-full rounded-xl opacity-80 mb-4 shadow-lg mx-auto max-w-[300px] xl:max-w-full">
-                <p class="text-[11px] text-slate-500 italic text-center xl:text-left">SHAP waterfall breakdown.</p>
+            <div id="nav-menu" class="hidden-mobile w-full lg:w-auto lg:flex gap-4 lg:gap-8 mt-4 lg:mt-0">
+                <a href="#features" class="nav-link">Features</a>
+                <a href="#quotes" class="nav-link">Mission</a>
+                <a href="#ml-section" class="nav-link">Analyze</a>
+                <a href="./index_final.html" class="nav-link">Results</a>
             </div>
         </div>
+    </nav>
 
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 pb-10">
-            <div class="glass-card p-6 md:p-8">
-                <h3 class="font-bold text-base md:text-lg mb-6 flex flex-wrap justify-between items-center gap-2">
-                    Environmental Benchmarking
-                    <span class="text-[9px] text-emerald-400 bg-emerald-500/10 px-2 py-1 rounded">2026 INDIA
-                        TARGETS</span>
-                </h3>
-                <div class="h-64 md:h-80"><canvas id="benchChart"></canvas></div>
-            </div>
-
-            <div class="glass-card p-6 md:p-8">
-                <h3 class="font-bold text-base md:text-lg mb-2">Correlation Profile</h3>
-                <div class="h-64 md:h-80 relative">
-                    <div
-                        class="absolute bottom-0 left-0 w-full flex justify-between px-1 md:px-4 text-[9px] font-black text-slate-500 uppercase tracking-widest pointer-events-none">
-                        <span>Min</span>
-                        <span class="text-emerald-500/50">Optimal</span>
-                        <span>Max</span>
+    <!-- Hero Section -->
+    <section class="hero-section section-spacing relative">
+        <div class="hero-gradient"></div>
+        
+        <div class="max-w-[1600px] mx-auto w-full relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
+                <!-- Left Content -->
+                <div class="space-y-8">
+                    <div class="space-y-4">
+                        <span class="text-sm md:text-base font-bold uppercase tracking-wider text-emerald-400">Environmental Intelligence</span>
+                        <h1 class="text-4xl md:text-5xl lg:text-6xl font-black leading-tight">
+                            Understand Your <span class="gradient-text">Environment</span>
+                        </h1>
+                        <p class="text-lg md:text-xl text-slate-400 max-w-lg leading-relaxed">
+                            Harness machine learning to analyze environmental factors and make data-driven decisions for a sustainable future.
+                        </p>
                     </div>
-                    <canvas id="corrChart"></canvas>
+
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <button onclick="document.getElementById('ml-section').scrollIntoView({ behavior: 'smooth' })" class="btn-primary w-full sm:w-auto text-center">
+                            Start Analysis
+                        </button>
+                        <button class="btn-secondary w-full sm:w-auto">Learn More</button>
+                    </div>
+                </div>
+
+                <!-- Right Floating Cards -->
+                <div class="hidden lg:grid grid-cols-2 gap-6 h-[500px] relative">
+                    <!-- Card 1 -->
+                    <div class="glass-card p-6 feature-card float-1" style="grid-column: 1; grid-row: 1; align-self: start;">
+                        <div class="icon-circle">🌱</div>
+                        <h3 class="font-bold text-lg mb-2">Greenness Index</h3>
+                        <p class="text-sm text-slate-400">Measure vegetation coverage and ecosystem health</p>
+                    </div>
+
+                    <!-- Card 2 -->
+                    <div class="glass-card p-6 feature-card float-2" style="grid-column: 2; grid-row: 1; align-self: center;">
+                        <div class="icon-circle">💨</div>
+                        <h3 class="font-bold text-lg mb-2">Air Quality</h3>
+                        <p class="text-sm text-slate-400">Real-time PM2.5 and pollutant tracking</p>
+                    </div>
+
+                    <!-- Card 3 -->
+                    <div class="glass-card p-6 feature-card float-3" style="grid-column: 1 / 3; grid-row: 2;">
+                        <div class="icon-circle">🏙️</div>
+                        <h3 class="font-bold text-lg mb-2">Urban Heat Analysis</h3>
+                        <p class="text-sm text-slate-400">Track Urban Heat Island effects and temperature trends</p>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="section-spacing relative">
+        <div class="max-w-[1600px] mx-auto">
+            <div class="mb-16 text-center">
+                <span class="text-sm md:text-base font-bold uppercase tracking-wider text-emerald-400">Why EcoKnowledge</span>
+                <h2 class="text-3xl md:text-5xl font-black mt-4 mb-6">Powerful Environmental Intelligence</h2>
+                <p class="text-lg text-slate-400 max-w-2xl mx-auto">Advanced machine learning models trained on real environmental data to provide accurate, actionable insights</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Feature 1 -->
+                <div class="glass-card p-8 feature-card scroll-fade hover:border-emerald-500/30 transition-colors">
+                    <div class="icon-circle">🧠</div>
+                    <h3 class="text-xl font-bold mb-3">AI-Powered Analysis</h3>
+                    <p class="text-slate-400">Deep learning models analyze complex environmental patterns to deliver precise predictions</p>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="glass-card p-8 feature-card scroll-fade hover:border-emerald-500/30 transition-colors">
+                    <div class="icon-circle">📊</div>
+                    <h3 class="text-xl font-bold mb-3">Real-Time Monitoring</h3>
+                    <p class="text-slate-400">Continuous environmental data tracking with instant visualization and alerts</p>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="glass-card p-8 feature-card scroll-fade hover:border-emerald-500/30 transition-colors">
+                    <div class="icon-circle">🌍</div>
+                    <h3 class="text-xl font-bold mb-3">Global Insights</h3>
+                    <p class="text-slate-400">Compare environmental metrics across regions and benchmark against global standards</p>
+                </div>
+
+                <!-- Feature 4 -->
+                <div class="glass-card p-8 feature-card scroll-fade hover:border-emerald-500/30 transition-colors">
+                    <div class="icon-circle">⚡</div>
+                    <h3 class="text-xl font-bold mb-3">Instant Predictions</h3>
+                    <p class="text-slate-400">Get environmental health scores in milliseconds with SHAP-based explanations</p>
+                </div>
+
+                <!-- Feature 5 -->
+                <div class="glass-card p-8 feature-card scroll-fade hover:border-emerald-500/30 transition-colors">
+                    <div class="icon-circle">🎯</div>
+                    <h3 class="text-xl font-bold mb-3">Actionable Insights</h3>
+                    <p class="text-slate-400">Decision trees and feature importance to guide environmental policies</p>
+                </div>
+
+                <!-- Feature 6 -->
+                <div class="glass-card p-8 feature-card scroll-fade hover:border-emerald-500/30 transition-colors">
+                    <div class="icon-circle">📈</div>
+                    <h3 class="text-xl font-bold mb-3">Trend Analysis</h3>
+                    <p class="text-slate-400">Historical data visualization showing environmental progress and regressions</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Project Overview Section -->
+    <section class="section-spacing bg-gradient-to-b from-transparent via-emerald-950/10 to-transparent">
+        <div class="max-w-[1600px] mx-auto">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div class="space-y-6">
+                    <div>
+                        <span class="text-sm font-bold uppercase tracking-wider text-emerald-400">Project Overview</span>
+                        <h2 class="text-3xl md:text-4xl font-black mt-4">Driving Environmental Change Through Data</h2>
+                    </div>
+                    <p class="text-lg text-slate-400 leading-relaxed">
+                        EcoKnowledge combines cutting-edge machine learning with environmental science to create a platform for understanding and improving our planet's health. Our models analyze multiple environmental factors simultaneously.
+                    </p>
+                    <ul class="space-y-3">
+                        <li class="flex gap-3">
+                            <span class="text-emerald-400 text-xl">✓</span>
+                            <span class="text-slate-400">Advanced ML models trained on real environmental datasets</span>
+                        </li>
+                        <li class="flex gap-3">
+                            <span class="text-emerald-400 text-xl">✓</span>
+                            <span class="text-slate-400">Interpretable AI with SHAP waterfall explanations</span>
+                        </li>
+                        <li class="flex gap-3">
+                            <span class="text-emerald-400 text-xl">✓</span>
+                            <span class="text-slate-400">Multi-factor environmental analysis (PM2.5, UHI, Greenness, etc.)</span>
+                        </li>
+                        <li class="flex gap-3">
+                            <span class="text-emerald-400 text-xl">✓</span>
+                            <span class="text-slate-400">Real-time benchmarking against 2026 India targets</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="glass-card p-8 relative overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-br from-emerald-500/10 to-cyan-500/10 pointer-events-none"></div>
+                    <div class="relative z-10">
+                        <h3 class="text-2xl font-bold mb-6 gradient-text">Key Metrics</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <div class="flex justify-between mb-2">
+                                    <span class="text-sm text-slate-400">Model Accuracy</span>
+                                    <span class="text-emerald-400 font-bold">94%</span>
+                                </div>
+                                <div class="w-full h-2 bg-slate-700 rounded-full overflow-hidden">
+                                    <div class="w-[94%] h-full bg-gradient-to-r from-emerald-500 to-cyan-500"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between mb-2">
+                                    <span class="text-sm text-slate-400">Data Coverage</span>
+                                    <span class="text-emerald-400 font-bold">2000+ Cities</span>
+                                </div>
+                                <div class="w-full h-2 bg-slate-700 rounded-full overflow-hidden">
+                                    <div class="w-full h-full bg-gradient-to-r from-emerald-500 to-cyan-500"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between mb-2">
+                                    <span class="text-sm text-slate-400">Analysis Speed</span>
+                                    <span class="text-emerald-400 font-bold">&lt;100ms</span>
+                                </div>
+                                <div class="w-full h-2 bg-slate-700 rounded-full overflow-hidden">
+                                    <div class="w-[98%] h-full bg-gradient-to-r from-emerald-500 to-cyan-500"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quotes Carousel Section -->
+    <section id="quotes" class="section-spacing relative">
+        <div class="max-w-[1600px] mx-auto">
+            <div class="mb-12 text-center">
+                <span class="text-sm font-bold uppercase tracking-wider text-emerald-400">Environmental Wisdom</span>
+                <h2 class="text-3xl md:text-5xl font-black mt-4">Voices for Our Planet</h2>
+            </div>
+
+            <div class="carousel-container">
+                <div class="carousel-slide active">
+                    <p class="carousel-quote">"The environment is not just one issue among many. It's the issue that underlies all the others."</p>
+                    <p class="carousel-author">— Al Gore</p>
+                </div>
+                <div class="carousel-slide">
+                    <p class="carousel-quote">"In the end, we will conserve only what we love, we will love only what we understand, and we will understand only what we are taught."</p>
+                    <p class="carousel-author">— Baba Dioum</p>
+                </div>
+                <div class="carousel-slide">
+                    <p class="carousel-quote">"The greatest threat to our planet is the belief that someone else will save it."</p>
+                    <p class="carousel-author">— Robert Swan</p>
+                </div>
+                <div class="carousel-slide">
+                    <p class="carousel-quote">"What is the use of a house if you haven't got a decent planet to put it on?"</p>
+                    <p class="carousel-author">— Henry David Thoreau</p>
+                </div>
+                <div class="carousel-slide">
+                    <p class="carousel-quote">"We do not inherit the earth from our ancestors; we borrow it from our children."</p>
+                    <p class="carousel-author">— Native American Proverb</p>
+                </div>
+            </div>
+
+            <div class="carousel-controls">
+                <div class="carousel-dot active" onclick="goToSlide(0)"></div>
+                <div class="carousel-dot" onclick="goToSlide(1)"></div>
+                <div class="carousel-dot" onclick="goToSlide(2)"></div>
+                <div class="carousel-dot" onclick="goToSlide(3)"></div>
+                <div class="carousel-dot" onclick="goToSlide(4)"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ML Model Section -->
+    <section id="ml-section" class="section-spacing relative">
+        <div class="max-w-[1600px] mx-auto">
+            <div class="mb-16 text-center">
+                <span class="text-sm font-bold uppercase tracking-wider text-emerald-400">Interactive Analysis</span>
+                <h2 class="text-3xl md:text-5xl font-black mt-4 mb-6">Analyze Your Environment</h2>
+                <p class="text-lg text-slate-400 max-w-2xl mx-auto">Enter environmental parameters to get real-time analysis powered by our machine learning model</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+                <!-- Left Panel: Global Weights -->
+                <div class="glass-card p-6 h-fit order-2 lg:order-1">
+                    <h3 class="text-xs font-bold text-emerald-400 uppercase tracking-[0.2em] mb-4 text-center lg:text-left">Global Weights</h3>
+                    <img src="assets/summary.jpg" alt="Feature importance weights" class="w-full rounded-xl opacity-80 mb-4 shadow-lg mx-auto max-w-[300px] lg:max-w-full">
+                    <p class="text-xs text-slate-500 italic text-center lg:text-left">Pre-trained feature importance weights from our ML model.</p>
+                </div>
+
+                <!-- Center: Form -->
+                <div class="lg:col-span-2 glass-card p-8 md:p-10 order-1 lg:order-2 border-emerald-500/20 shadow-2xl">
+                    <form id="ecoForm" class="flex flex-col gap-8">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <!-- Greenness -->
+                            <div class="space-y-2">
+                                <label class="text-xs text-slate-500 font-bold uppercase tracking-wider">Greenness (%)</label>
+                                <input type="number" step="any" name="Greenness" value="45.5" placeholder="0-100%" class="p-3 md:p-4">
+                                <p class="text-xs text-slate-600">Vegetation coverage index</p>
+                            </div>
+
+                            <!-- Urban Density -->
+                            <div class="space-y-2">
+                                <label class="text-xs text-slate-500 font-bold uppercase tracking-wider">Urban Density</label>
+                                <input type="number" step="any" name="Urban_Density" value="10.2" placeholder="Enter value" class="p-3 md:p-4">
+                                <p class="text-xs text-slate-600">Building and infrastructure density</p>
+                            </div>
+
+                            <!-- UHI -->
+                            <div class="space-y-2">
+                                <label class="text-xs text-slate-500 font-bold uppercase tracking-wider">UHI (°C)</label>
+                                <input type="number" step="any" name="UHI" value="-0.5" placeholder="Temperature delta" class="p-3 md:p-4 text-sm">
+                                <p class="text-xs text-slate-600">Urban Heat Island effect</p>
+                            </div>
+
+                            <!-- LSTVI -->
+                            <div class="space-y-2">
+                                <label class="text-xs text-slate-500 font-bold uppercase tracking-wider">LSTVI</label>
+                                <input type="number" step="any" name="LSTVI" value="0.05" placeholder="Index value" class="p-3 md:p-4 text-sm">
+                                <p class="text-xs text-slate-600">Land Surface Temperature</p>
+                            </div>
+
+                            <!-- PM2.5 -->
+                            <div class="space-y-2 sm:col-span-2">
+                                <label class="text-xs text-slate-500 font-bold uppercase tracking-wider">PM 2.5 Levels (µg/m³)</label>
+                                <input type="number" step="any" name="PM25" value="20.1" placeholder="Particulate matter" class="p-3 md:p-4 border-red-500/20">
+                                <p class="text-xs text-slate-600">Air quality measurement</p>
+                            </div>
+                        </div>
+
+                        <!-- Results Display -->
+                        <div id="resultDisplay" class="hidden result-display text-center space-y-4">
+                            <div>
+                                <p class="text-xs text-slate-500 uppercase tracking-wider mb-1">Environmental Health Score</p>
+                                <div class="text-5xl md:text-6xl font-black gradient-text" id="resScore">0.00</div>
+                            </div>
+                            <div>
+                                <p class="text-2xl font-bold text-white" id="resCategory">Analyzing...</p>
+                            </div>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <button type="submit" id="submitBtn" class="btn-primary w-full flex justify-center items-center gap-3 py-4 md:py-5 text-base md:text-lg">
+                            <span id="btnText">Analyze Environment</span>
+                            <div id="loader" class="hidden loader"></div>
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Right Panel: Waterfall Plot -->
+                <div class="glass-card p-6 h-fit order-3">
+                    <h3 class="text-xs font-bold text-emerald-400 uppercase tracking-[0.2em] mb-4 text-center lg:text-left">Decision Path</h3>
+                    <img src="assets/waterfall%20plot.jpg" alt="SHAP waterfall breakdown" class="w-full rounded-xl opacity-80 mb-4 shadow-lg mx-auto max-w-[300px] lg:max-w-full">
+                    <p class="text-xs text-slate-500 italic text-center lg:text-left">SHAP explainability breakdown showing feature contributions.</p>
+                </div>
+            </div>
+
+            <!-- Charts Section -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8 pb-10">
+                <div class="glass-card p-6 md:p-8">
+                    <h3 class="font-bold text-base md:text-lg mb-6 flex flex-wrap justify-between items-center gap-2">
+                        Environmental Benchmarking
+                        <span class="text-xs text-emerald-400 bg-emerald-500/10 px-2 py-1 rounded">2026 TARGETS</span>
+                    </h3>
+                    <div class="h-64 md:h-80"><canvas id="benchChart"></canvas></div>
+                </div>
+
+                <div class="glass-card p-6 md:p-8">
+                    <h3 class="font-bold text-base md:text-lg mb-2">Correlation Profile</h3>
+                    <div class="h-64 md:h-80 relative">
+                        <div class="absolute bottom-0 left-0 w-full flex justify-between px-1 md:px-4 text-xs font-black text-slate-500 uppercase tracking-widest pointer-events-none">
+                            <span>Min</span>
+                            <span class="text-emerald-500/50">Optimal</span>
+                            <span>Max</span>
+                        </div>
+                        <canvas id="corrChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-800/50 py-8 px-4 md:px-6 lg:px-10">
+        <div class="max-w-[1600px] mx-auto text-center text-slate-500 text-sm">
+            <p>EcoKnowledge © 2026. Powered by Environmental Intelligence & Machine Learning</p>
+        </div>
+    </footer>
 
     <script>
-        // MOBILE NAV TOGGLE
-        document.getElementById('menu-toggle').onclick = () => {
+        // Mobile Menu Toggle
+        document.getElementById('menu-toggle')?.addEventListener('click', () => {
             document.getElementById('nav-menu').classList.toggle('hidden-mobile');
+        });
+
+        // Carousel Functionality
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.carousel-slide');
+        const dots = document.querySelectorAll('.carousel-dot');
+        const totalSlides = slides.length;
+
+        function showSlide(n) {
+            slides.forEach(slide => slide.classList.remove('active'));
+            dots.forEach(dot => dot.classList.remove('active'));
+            slides[n].classList.add('active');
+            dots[n].classList.add('active');
+        }
+
+        function goToSlide(n) {
+            currentSlide = n % totalSlides;
+            showSlide(currentSlide);
+        }
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % totalSlides;
+            showSlide(currentSlide);
+        }
+
+        // Auto-rotate carousel every 8 seconds
+        setInterval(nextSlide, 8000);
+
+        // Scroll Fade Animation
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
         };
 
-        const ctx1 = document.getElementById('benchChart').getContext('2d');
-        const ctx2 = document.getElementById('corrChart').getContext('2d');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
 
-        const benchChart = new Chart(ctx1, {
-            type: 'bar',
-            data: {
-                labels: ['Green %', 'PM 2.5', 'Density'],
-                datasets: [
-                    { label: 'Simulation', data: [45.5, 20.1, 10.2], backgroundColor: '#34d399', borderRadius: 8 },
-                    { label: 'Target', data: [35, 15, 12], backgroundColor: 'rgba(255,255,255,0.08)', borderRadius: 8 }
-                ]
-            },
-            options: {
-                responsive: true, maintainAspectRatio: false,
-                scales: { y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#64748b' } }, x: { grid: { display: false }, ticks: { color: '#f8fafc' } } },
-                plugins: { legend: { position: 'bottom', labels: { color: '#f8fafc', boxWidth: 10, font: { size: 10 } } } }
-            }
-        });
+        document.querySelectorAll('.scroll-fade').forEach(el => observer.observe(el));
 
-        const corrChart = new Chart(ctx2, {
-            type: 'line',
-            data: {
-                labels: Array.from({ length: 40 }, (_, i) => i),
-                datasets: [
-                    {
-                        label: 'Curve',
-                        data: Array.from({ length: 40 }, (_, i) => 2 + 3 * Math.exp(-Math.pow(i - 20, 2) / 100)),
-                        borderColor: '#34d399', borderWidth: 2, pointRadius: 0, tension: 0.4, fill: true, backgroundColor: 'rgba(52, 211, 153, 0.05)'
+        // Chart Configuration
+        const ctx1 = document.getElementById('benchChart')?.getContext('2d');
+        const ctx2 = document.getElementById('corrChart')?.getContext('2d');
+
+        if (ctx1) {
+            const benchChart = new Chart(ctx1, {
+                type: 'bar',
+                data: {
+                    labels: ['Green %', 'PM 2.5', 'Density'],
+                    datasets: [
+                        { label: 'Current', data: [45.5, 20.1, 10.2], backgroundColor: '#34d399', borderRadius: 8 },
+                        { label: '2026 Target', data: [60, 15, 12], backgroundColor: 'rgba(255,255,255,0.08)', borderRadius: 8 }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { 
+                            grid: { color: 'rgba(255,255,255,0.05)' }, 
+                            ticks: { color: '#64748b' } 
+                        },
+                        x: { 
+                            grid: { display: false }, 
+                            ticks: { color: '#f8fafc' } 
+                        }
                     },
-                    {
-                        label: 'Live', data: [{ x: 20, y: 5 }], type: 'scatter', backgroundColor: '#fff', borderColor: '#34d399', borderWidth: 3, pointRadius: 8
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: { color: '#f8fafc', boxWidth: 10, font: { size: 10 } }
+                        }
                     }
-                ]
-            },
-            options: {
-                responsive: true, maintainAspectRatio: false,
-                scales: { y: { display: false, min: 0, max: 6 }, x: { display: false } },
-                plugins: { legend: { display: false } }
-            }
-        });
+                }
+            });
 
-        document.getElementById('ecoForm').addEventListener('input', (e) => {
+            window.benchChart = benchChart;
+        }
+
+        if (ctx2) {
+            const corrChart = new Chart(ctx2, {
+                type: 'line',
+                data: {
+                    labels: Array.from({ length: 40 }, (_, i) => i),
+                    datasets: [
+                        {
+                            label: 'Health Curve',
+                            data: Array.from({ length: 40 }, (_, i) => 2 + 3 * Math.exp(-Math.pow(i - 20, 2) / 100)),
+                            borderColor: '#34d399',
+                            borderWidth: 2,
+                            pointRadius: 0,
+                            tension: 0.4,
+                            fill: true,
+                            backgroundColor: 'rgba(52, 211, 153, 0.05)'
+                        },
+                        {
+                            label: 'Current Status',
+                            data: [{ x: 20, y: 5 }],
+                            type: 'scatter',
+                            backgroundColor: '#fff',
+                            borderColor: '#34d399',
+                            borderWidth: 3,
+                            pointRadius: 8
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { display: false, min: 0, max: 6 },
+                        x: { display: false }
+                    },
+                    plugins: { legend: { display: false } }
+                }
+            });
+
+            window.corrChart = corrChart;
+        }
+
+        // Form Input Tracking
+        document.getElementById('ecoForm')?.addEventListener('input', (e) => {
             const formData = new FormData(document.getElementById('ecoForm'));
             const green = parseFloat(formData.get('Greenness')) || 0;
             const pm = parseFloat(formData.get('PM25')) || 0;
 
-            benchChart.data.datasets[0].data = [green, pm, parseFloat(formData.get('Urban_Density')) || 0];
-            benchChart.update('none');
+            if (window.benchChart) {
+                window.benchChart.data.datasets[0].data = [green, pm, parseFloat(formData.get('Urban_Density')) || 0];
+                window.benchChart.update('none');
+            }
 
-            let xPos = 20 + (green - 35) - (pm - 15);
-            xPos = Math.max(0, Math.min(39, xPos));
-            corrChart.data.datasets[1].data = [{ x: xPos, y: 2 + 3 * Math.exp(-Math.pow(xPos - 20, 2) / 100) }];
-            corrChart.update('none');
+            if (window.corrChart) {
+                let xPos = 20 + (green - 35) - (pm - 15);
+                xPos = Math.max(0, Math.min(39, xPos));
+                window.corrChart.data.datasets[1].data = [{ x: xPos, y: 2 + 3 * Math.exp(-Math.pow(xPos - 20, 2) / 100) }];
+                window.corrChart.update('none');
+            }
         });
 
-        document.getElementById('ecoForm').addEventListener('submit', async (e) => {
+        // Form Submission
+        document.getElementById('ecoForm')?.addEventListener('submit', async (e) => {
             e.preventDefault();
             const btn = document.getElementById('submitBtn');
             const loader = document.getElementById('loader');
@@ -275,18 +925,26 @@
                         PM25: parseFloat(e.target.PM25.value)
                     })
                 });
+
                 const data = await response.json();
                 if (data.success) {
                     resultDisplay.classList.remove('hidden');
                     document.getElementById('resCategory').innerText = data.prediction.category;
                     gsap.to({ v: 0 }, {
-                        v: data.prediction.raw_score, duration: 1, onUpdate: function () {
+                        v: data.prediction.raw_score,
+                        duration: 1,
+                        onUpdate: function () {
                             document.getElementById('resScore').innerText = this.targets()[0].v.toFixed(2);
                         }
                     });
                 }
-            } catch (err) { alert("Backend Offline"); }
-            finally { btn.disabled = false; loader.classList.add('hidden'); }
+            } catch (err) {
+                document.getElementById('resCategory').innerText = 'Backend Offline';
+                resultDisplay.classList.remove('hidden');
+            } finally {
+                btn.disabled = false;
+                loader.classList.add('hidden');
+            }
         });
     </script>
 </body>
