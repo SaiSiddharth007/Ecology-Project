@@ -237,72 +237,7 @@
         </div>
     </section>
 
-    <!-- ML Model Simulation Section -->
-    <section id="simulation" class="py-24 px-6">
-        <div class="max-w-7xl mx-auto">
-            <div class="text-center mb-16">
-                <h2 class="text-5xl font-black mb-4">Environmental Simulation</h2>
-                <p class="text-slate-400">Input urban parameters to predict environmental health scores using our ML models.</p>
-            </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                <!-- Input Form -->
-                <div class="lg:col-span-2 glass-card p-10 border-emerald-500/20">
-                    <form id="ecoForm" class="space-y-8">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                            <div class="space-y-6">
-                                <div>
-                                    <label class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-2 block">Greenness (%)</label>
-                                    <input type="number" step="any" name="Greenness" value="45.5" class="p-4 text-lg">
-                                </div>
-                                <div>
-                                    <label class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-2 block">Urban Density</label>
-                                    <input type="number" step="any" name="Urban_Density" value="10.2" class="p-4 text-lg">
-                                </div>
-                            </div>
-                            <div class="space-y-6">
-                                <div class="grid grid-cols-2 gap-4">
-                                    <div>
-                                        <label class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-2 block">UHI</label>
-                                        <input type="number" step="any" name="UHI" value="-0.5" class="p-4">
-                                    </div>
-                                    <div>
-                                        <label class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-2 block">LSTVI</label>
-                                        <input type="number" step="any" name="LSTVI" value="0.05" class="p-4">
-                                    </div>
-                                </div>
-                                <div>
-                                    <label class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-2 block">PM 2.5 Levels</label>
-                                    <input type="number" step="any" name="PM25" value="20.1" class="p-4">
-                                </div>
-                            </div>
-                        </div>
-
-                        <button type="submit" id="submitBtn" class="w-full bg-emerald-500 text-black font-black py-6 rounded-2xl hover:bg-emerald-400 active:scale-[0.98] transition-all text-xl flex justify-center items-center gap-4">
-                            <span>Analyze Environment</span>
-                            <div id="loader" class="hidden w-6 h-6 border-3 border-black border-t-transparent rounded-full animate-spin"></div>
-                        </button>
-                    </form>
-                </div>
-
-                <!-- Results Card -->
-                <div class="glass-card p-10 flex flex-col justify-center items-center text-center border-emerald-500/20">
-                    <div id="resultDisplay" class="hidden space-y-4">
-                        <h3 class="text-slate-500 font-bold uppercase tracking-widest text-sm">Prediction Result</h3>
-                        <div id="resCategory" class="text-4xl font-black text-white italic">Healthy</div>
-                        <div class="text-7xl font-black text-emerald-400" id="resScore">0.00</div>
-                        <p class="text-slate-500 text-xs mt-4">Score based on Random Forest & XGBoost Ensemble</p>
-                    </div>
-                    <div id="placeholderDisplay" class="text-slate-600">
-                        <svg class="w-20 h-20 mx-auto mb-4 opacity-20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
-                        <p class="font-bold uppercase tracking-widest text-xs">Awaiting Input</p>
-                    </div>
-                </div>
-            </div>
-
-
-        </div>
-    </section>
 
     <!-- Footer -->
     <footer class="py-12 px-6 border-t border-white/5">
@@ -362,59 +297,7 @@
 
 
 
-        // Form Logic
-        document.getElementById('ecoForm').addEventListener('input', (e) => {
-            const formData = new FormData(document.getElementById('ecoForm'));
-            const green = parseFloat(formData.get('Greenness')) || 0;
-            const pm = parseFloat(formData.get('PM25')) || 0;
 
-
-
-
-        });
-
-        document.getElementById('ecoForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const btn = document.getElementById('submitBtn');
-            const loader = document.getElementById('loader');
-            const resultDisplay = document.getElementById('resultDisplay');
-            const placeholder = document.getElementById('placeholderDisplay');
-
-            btn.disabled = true;
-            loader.classList.remove('hidden');
-
-            try {
-                const response = await fetch('https://c205-117-250-212-34.ngrok-free.app/predict', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        Greenness: parseFloat(e.target.Greenness.value),
-                        Urban_Density: parseFloat(e.target.Urban_Density.value),
-                        UHI: parseFloat(e.target.UHI.value),
-                        LSTVI: parseFloat(e.target.LSTVI.value),
-                        PM25: parseFloat(e.target.PM25.value)
-                    })
-                });
-                const data = await response.json();
-                if (data.success) {
-                    placeholder.classList.add('hidden');
-                    resultDisplay.classList.remove('hidden');
-                    document.getElementById('resCategory').innerText = data.prediction.category;
-                    gsap.to({ v: 0 }, {
-                        v: data.prediction.raw_score, duration: 1, onUpdate: function () {
-                            document.getElementById('resScore').innerText = this.targets()[0].v.toFixed(2);
-                        }
-                    });
-                }
-            } catch (err) { 
-                alert("Backend Offline - Using Simulated Result");
-                placeholder.classList.add('hidden');
-                resultDisplay.classList.remove('hidden');
-                document.getElementById('resCategory').innerText = "Healthy (Simulated)";
-                document.getElementById('resScore').innerText = "0.85";
-            }
-            finally { btn.disabled = false; loader.classList.add('hidden'); }
-        });
 
         // GSAP Animations
         gsap.from(".glass-card", {
