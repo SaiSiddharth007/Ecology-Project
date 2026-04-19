@@ -100,28 +100,10 @@
 
 <body class="bg-[#05070a]">
 
-    <!-- Navbar -->
-    <nav class="fixed top-0 left-0 w-full z-[100] px-6 py-4">
-        <div class="max-w-7xl mx-auto glass-card px-8 py-4 flex items-center justify-between border-emerald-500/20">
-            <div class="flex items-center gap-3">
-                <img src="logo.png" alt="Logo" class="w-10 h-10">
-                <span class="text-2xl font-black tracking-tighter text-white">EcoKnowledge</span>
-            </div>
-            <div class="hidden md:flex gap-8 text-xs font-bold uppercase tracking-widest">
-                <a href="#overview" class="text-slate-400 hover:text-emerald-400 transition-colors">Overview</a>
-                <a href="#features" class="text-slate-400 hover:text-emerald-400 transition-colors">Features</a>
-                <a href="#quotes" class="text-slate-400 hover:text-emerald-400 transition-colors">Inspiration</a>
-                <a href="#simulation" class="text-emerald-400">Simulation</a>
-                <a href="./index_final.html" class="text-slate-400 hover:text-white transition-colors">EcoGrid Analysis</a>
-            </div>
-            <button class="md:hidden text-white">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
-            </button>
-        </div>
-    </nav>
+
 
     <!-- Hero Section with Floating Animations -->
-    <section class="relative min-height-[100vh] pt-32 pb-20 px-6 overflow-hidden">
+    <section class="relative min-height-[100vh] pt-20 pb-20 px-6 overflow-hidden">
         <div class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
             <div class="z-10">
                 <h1 class="text-6xl md:text-8xl font-black tracking-tighter mb-6 leading-none">
@@ -191,8 +173,9 @@
     </section>
 
     <!-- Dynamic Carousel Section -->
-    <section class="py-24 px-6">
-        <div class="max-w-7xl mx-auto">
+    <section class="py-24 px-6 relative overflow-hidden" style="background: linear-gradient(135deg, rgba(52, 211, 153, 0.05) 0%, rgba(5, 7, 10, 0.8) 100%);">
+        <div class="absolute inset-0 opacity-10" style="background-image: url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=%2250%22 cy=%2250%22 r=%2240%22 fill=%22none%22 stroke=%22%2334d399%22 stroke-width=%220.5%22/></svg>'); background-size: 50px 50px;"></div>
+        <div class="max-w-7xl mx-auto relative z-10">
             <div class="carousel-container shadow-2xl">
                 <div class="carousel-slide active" style="background-image: url('assets/carousel/forest1.jpg');">
                     <div class="carousel-overlay">
@@ -303,19 +286,13 @@
             </div>
 
             <!-- Charts Section -->
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-12">
+            <div class="grid grid-cols-1 gap-8 mt-12">
                 <div class="glass-card p-8">
                     <h3 class="font-bold text-lg mb-6 flex justify-between items-center">
                         Environmental Benchmarking
                         <span class="text-[10px] text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-full">2026 TARGETS</span>
                     </h3>
                     <div class="h-80"><canvas id="benchChart"></canvas></div>
-                </div>
-                <div class="glass-card p-8">
-                    <h3 class="font-bold text-lg mb-6">Correlation Profile</h3>
-                    <div class="h-80 relative">
-                        <canvas id="corrChart"></canvas>
-                    </div>
                 </div>
             </div>
         </div>
@@ -352,7 +329,7 @@
         function nextSlide() { showSlide(currentSlide + 1); }
         function prevSlide() { showSlide(currentSlide - 1); }
 
-        setInterval(nextSlide, 5000);
+        setInterval(nextSlide, 3000);
 
         // Quotes Logic
         const quotes = [
@@ -377,7 +354,6 @@
 
         // Charts Logic
         const ctx1 = document.getElementById('benchChart').getContext('2d');
-        const ctx2 = document.getElementById('corrChart').getContext('2d');
 
         const benchChart = new Chart(ctx1, {
             type: 'bar',
@@ -398,27 +374,7 @@
             }
         });
 
-        const corrChart = new Chart(ctx2, {
-            type: 'line',
-            data: {
-                labels: Array.from({ length: 40 }, (_, i) => i),
-                datasets: [
-                    {
-                        label: 'Curve',
-                        data: Array.from({ length: 40 }, (_, i) => 2 + 3 * Math.exp(-Math.pow(i - 20, 2) / 100)),
-                        borderColor: '#34d399', borderWidth: 2, pointRadius: 0, tension: 0.4, fill: true, backgroundColor: 'rgba(52, 211, 153, 0.05)'
-                    },
-                    {
-                        label: 'Live', data: [{ x: 20, y: 5 }], type: 'scatter', backgroundColor: '#fff', borderColor: '#34d399', borderWidth: 3, pointRadius: 8
-                    }
-                ]
-            },
-            options: {
-                responsive: true, maintainAspectRatio: false,
-                scales: { y: { display: false, min: 0, max: 6 }, x: { display: false } },
-                plugins: { legend: { display: false } }
-            }
-        });
+
 
         // Form Logic
         document.getElementById('ecoForm').addEventListener('input', (e) => {
@@ -429,10 +385,7 @@
             benchChart.data.datasets[0].data = [green, pm, parseFloat(formData.get('Urban_Density')) || 0];
             benchChart.update('none');
 
-            let xPos = 20 + (green - 35) - (pm - 15);
-            xPos = Math.max(0, Math.min(39, xPos));
-            corrChart.data.datasets[1].data = [{ x: xPos, y: 2 + 3 * Math.exp(-Math.pow(xPos - 20, 2) / 100) }];
-            corrChart.update('none');
+
         });
 
         document.getElementById('ecoForm').addEventListener('submit', async (e) => {
