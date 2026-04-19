@@ -173,10 +173,15 @@
     </section>
 
     <!-- Dynamic Carousel Section -->
-    <section class="py-24 px-6 relative overflow-hidden" style="background: linear-gradient(135deg, rgba(52, 211, 153, 0.05) 0%, rgba(5, 7, 10, 0.8) 100%);">
-        <div class="absolute inset-0 opacity-10" style="background-image: url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=%2250%22 cy=%2250%22 r=%2240%22 fill=%22none%22 stroke=%22%2334d399%22 stroke-width=%220.5%22/></svg>'); background-size: 50px 50px;"></div>
+    <section class="py-24 px-6 relative overflow-hidden">
+        <!-- Immersive Background for Carousel Section -->
+        <div class="absolute inset-0 z-0">
+            <div class="absolute inset-0 bg-gradient-to-b from-[#05070a] via-emerald-900/10 to-[#05070a]"></div>
+            <div class="absolute inset-0 opacity-20" style="background-image: url('assets/carousel/forest2.jpg'); background-size: cover; background-position: center; filter: blur(8px);"></div>
+        </div>
+        
         <div class="max-w-7xl mx-auto relative z-10">
-            <div class="carousel-container shadow-2xl">
+            <div class="carousel-container shadow-[0_0_50px_rgba(52,211,153,0.2)]">
                 <div class="carousel-slide active" style="background-image: url('assets/carousel/forest1.jpg');">
                     <div class="carousel-overlay">
                         <h2 class="text-5xl font-black text-white mb-4">Preserving Biodiversity</h2>
@@ -285,16 +290,7 @@
                 </div>
             </div>
 
-            <!-- Charts Section -->
-            <div class="grid grid-cols-1 gap-8 mt-12">
-                <div class="glass-card p-8">
-                    <h3 class="font-bold text-lg mb-6 flex justify-between items-center">
-                        Environmental Benchmarking
-                        <span class="text-[10px] text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-full">2026 TARGETS</span>
-                    </h3>
-                    <div class="h-80"><canvas id="benchChart"></canvas></div>
-                </div>
-            </div>
+
         </div>
     </section>
 
@@ -352,27 +348,7 @@
         }
         setInterval(rotateQuote, 8000);
 
-        // Charts Logic
-        const ctx1 = document.getElementById('benchChart').getContext('2d');
 
-        const benchChart = new Chart(ctx1, {
-            type: 'bar',
-            data: {
-                labels: ['Green %', 'PM 2.5', 'Density'],
-                datasets: [
-                    { label: 'Simulation', data: [45.5, 20.1, 10.2], backgroundColor: '#34d399', borderRadius: 8 },
-                    { label: 'Target', data: [35, 15, 12], backgroundColor: 'rgba(255,255,255,0.08)', borderRadius: 8 }
-                ]
-            },
-            options: {
-                responsive: true, maintainAspectRatio: false,
-                scales: { 
-                    y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#64748b' } }, 
-                    x: { grid: { display: false }, ticks: { color: '#f8fafc' } } 
-                },
-                plugins: { legend: { position: 'bottom', labels: { color: '#f8fafc', boxWidth: 10, font: { size: 10 } } } }
-            }
-        });
 
 
 
@@ -382,8 +358,7 @@
             const green = parseFloat(formData.get('Greenness')) || 0;
             const pm = parseFloat(formData.get('PM25')) || 0;
 
-            benchChart.data.datasets[0].data = [green, pm, parseFloat(formData.get('Urban_Density')) || 0];
-            benchChart.update('none');
+
 
 
         });
